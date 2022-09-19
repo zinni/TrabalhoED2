@@ -38,6 +38,7 @@ graph = {
     }
 
 visited = set() # Set to keep track of visited nodes.
+caminho = []
 
 def dfs(visited, graph, node):
     if node not in visited:
@@ -46,9 +47,11 @@ def dfs(visited, graph, node):
         if node == 'exit':
             print("Você achou a saída!")
             quit()
-        else:
-            for neighbour in graph[node]:
-                dfs(visited, graph, neighbour)
+        
+        for neighbour in graph[node]:
+            dfs(visited, graph, neighbour)
+
 
 # Driver Code
 dfs(visited, graph, '1')
+print(caminho)

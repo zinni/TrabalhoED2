@@ -1,4 +1,6 @@
+from asyncio.windows_events import NULL
 from queue import PriorityQueue
+from tracemalloc import start
 
 class Graph:
     def __init__(self, num_of_vertices):
@@ -16,6 +18,8 @@ def dijkstra(graph, start_vertex):
 
     pq = PriorityQueue()
     pq.put((0, start_vertex))
+    lista = []
+    lista2 = []
 
     while not pq.empty():
         (dist, current_vertex) = pq.get()
@@ -29,9 +33,19 @@ def dijkstra(graph, start_vertex):
                     if new_cost < old_cost:
                         pq.put((new_cost, neighbor))
                         D[neighbor] = new_cost
-                            
+                        lista.append(neighbor)
+                        lista2.append(current_vertex)
                     
-    return D
+    return D, lista, lista2
+
+def caminho(start, target, lista, lista2):
+    new = [target]
+    while target is not start:
+        x = lista.index(target)
+        new.append(lista2[x])
+        target = lista2[x]
+    new.reverse()
+    return new
 
 g = Graph(29)
 g.add_edge(1, 2, 12.8)
@@ -92,12 +106,9 @@ g.add_edge(24, 28, 58)
 g.add_edge(25, 28, 42)
 g.add_edge(27, 28, 26)
 
-D = dijkstra(g, 8)
+D, lista, lista2 = dijkstra(g, 8)
 
 print("A melhor rota encontradas para cada cidade foi de:")
-print("Para a cidade 15: ",round(D[15],2))
-print("Para a cidade 26: ",round(D[26],2))
-print("Para a cidade 27: ",round(D[27],2))
-
-#for vertex in range(len(D)):
-#    print("Distance from vertex 8 to vertex", vertex, "is", D[vertex])
+print("Para a cidade 15: ",round(D[15],2), "na rota", caminho(8, 15, lista, lista2))
+print("Para a cidade 26: ",round(D[26],2), "na rota", caminho(8, 26, lista, lista2))
+print("Para a cidade 27: ",round(D[27],2), "na rota", caminho(8, 27, lista, lista2))
