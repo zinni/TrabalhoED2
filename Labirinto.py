@@ -54,4 +54,3 @@ def dfs(visited, graph, node):
 
 # Driver Code
 dfs(visited, graph, '1')
-print(caminho)
