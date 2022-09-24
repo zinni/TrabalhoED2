@@ -1,4 +1,4 @@
-graph = {
+grafo = {
     '1' : ['2'],
     '2' : ['1','3','6'], 
     '3' : ['2','4','8'], 
@@ -37,20 +37,21 @@ graph = {
     '36' : ['35', 'exit'],
     }
 
-visited = set() # Set to keep track of visited nodes.
+
+visitado = set()
 caminho = []
 
-def dfs(visited, graph, node):
-    if node not in visited:
+def dfs(visitado, grafo, node):
+    #verifica se o no não foi visitado
+    if node not in visitado:
         print (node)
-        visited.add(node)
+        visitado.add(node)
         if node == 'exit':
             print("Você achou a saída!")
+            #fecha aplicação
             quit()
         
-        for neighbour in graph[node]:
-            dfs(visited, graph, neighbour)
+        for vizinho in grafo[node]:
+            dfs(visitado, grafo, vizinho)
 
-
-# Driver Code
-dfs(visited, graph, '1')
+dfs(visitado, grafo, '1')
